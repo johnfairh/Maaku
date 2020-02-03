@@ -1,3 +1,7 @@
+Quick fork for Linux support using SPM in 5.1.  See commit comments.
+Versions at upstream + 10.0.0.
+
+---
 # Maaku
 
 [![Build Status](https://travis-ci.org/KristopherGBaker/Maaku.svg?branch=master)](https://travis-ci.org/KristopherGBaker/Maaku)

@@ -73,7 +73,7 @@ public struct CMExtensionOption: OptionSet {
     ///
     /// - Returns:
     ///    The option associated with the extension name if any, or nil if the extension isn't supported.
-    public static func option(forExtensionName name: String) -> CMExtensionOption? {
+    public static func option(forExtensionName name: String) -> CMExtensionOption {
         switch name {
         case "table": return tables
         case "autolink": return autolinks
