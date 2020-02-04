@@ -16,7 +16,7 @@ public class CMNode {
     public let cmarkNode: UnsafeMutablePointer<cmark_node>
 
     /// Indicates if the node should be freed when done.
-    private let referencedMemoryOwner: CMNode?
+    var referencedMemoryOwner: CMNode?
 
     /// Read-only access to the memory owner
     /// This allows extensions (or tests) to query the value.

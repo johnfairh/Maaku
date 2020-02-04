@@ -118,15 +118,16 @@ public extension CMNode {
         guard (beforeNode.type != .document) && (self.type != .document) else {
             throw ASTError.canNotInsert
         }
-        // For now, we only allow nodes in the same memory management set to play together.
-        guard (beforeNode.internalMemoryOwner != nil)
-            && (self.internalMemoryOwner != nil)
-            && (beforeNode.internalMemoryOwner!.cmarkNode == self.internalMemoryOwner!.cmarkNode) else {
-            throw ASTError.documentMismatch
-        }
+        referencedMemoryOwner = beforeNode.referencedMemoryOwner ?? beforeNode
         if cmark_node_insert_before(beforeNode.cmarkNode, self.cmarkNode) != 1 {
             throw ASTError.canNotInsert
         }
+    }
+
+    /// Remove this node along with its children from the AST
+    func unlink() {
+        referencedMemoryOwner = nil
+        cmark_node_unlink(cmarkNode)
     }
 
     /// Inserts this node into the AST after the given node
@@ -140,12 +141,7 @@ public extension CMNode {
         guard (afterNode.type != .document) && (self.type != .document) else {
             throw ASTError.canNotInsert
         }
-        // For now, we only allow nodes in the same memory management set to play together.
-        guard (afterNode.internalMemoryOwner != nil)
-            && (self.internalMemoryOwner != nil)
-            && (afterNode.internalMemoryOwner!.cmarkNode == self.internalMemoryOwner!.cmarkNode) else {
-            throw ASTError.documentMismatch
-        }
+        referencedMemoryOwner = afterNode.referencedMemoryOwner ?? afterNode
         if cmark_node_insert_after(afterNode.cmarkNode, self.cmarkNode) != 1 {
             throw ASTError.canNotInsert
         }
@@ -163,13 +159,7 @@ public extension CMNode {
         guard self.type != .document else {
             throw ASTError.canNotInsert
         }
-        // For now, we only allow nodes in the same memory management set to play together.
-        // The test is a bit complicated, because parent might be the referencedMemoryOwner.
-        guard (self.internalMemoryOwner === parent)
-            || ((parent.internalMemoryOwner != nil)
-                && (self.internalMemoryOwner === parent.internalMemoryOwner)) else {
-            throw ASTError.documentMismatch
-        }
+        referencedMemoryOwner = parent.referencedMemoryOwner ?? parent
         if cmark_node_prepend_child(parent.cmarkNode, self.cmarkNode) != 1 {
             throw ASTError.canNotInsert
         }
@@ -187,13 +177,7 @@ public extension CMNode {
         guard self.type != .document else {
             throw ASTError.canNotInsert
         }
-        // For now, we only allow nodes in the same memory management set to play together.
-        // The test is a bit complicated, because parent might be the referencedMemoryOwner.
-        guard (self.internalMemoryOwner === parent)
-            || ((parent.internalMemoryOwner != nil)
-                && (self.internalMemoryOwner === parent.internalMemoryOwner)) else {
-            throw ASTError.documentMismatch
-        }
+        referencedMemoryOwner = parent.referencedMemoryOwner ?? parent
         if cmark_node_append_child(parent.cmarkNode, self.cmarkNode) != 1 {
             throw ASTError.canNotInsert
         }
@@ -208,7 +192,7 @@ public extension CMNode {
     ///         This is only needed because our current memory management scheme requires
     ///         all nodes to be owned by a parent node. Any nodes without parents might
     ///         end up having their data freed incorrectly.
-    convenience init?(type: CMNodeType, `extension`: CMExtensionOption? = nil, parent: CMNode) {
+    convenience init?(type: CMNodeType, `extension`: CMExtensionOption? = nil, parent: CMNode? = nil) {
         let node: UnsafeMutablePointer<cmark_node>
         if `extension` != nil {
            node = cmark_node_new_with_ext(cmark_node_type(type.rawValue), `extension`!.syntaxExtension)
@@ -216,11 +200,27 @@ public extension CMNode {
             node = cmark_node_new(cmark_node_type(type.rawValue))
         }
         self.init(cmarkNode: node, memoryOwner: parent)
-
-        do {
-            try insertIntoTree(asLastChildOf: parent)
-        } catch {
-            return nil
+        if let parent = parent {
+            do {
+                try insertIntoTree(asLastChildOf: parent)
+            } catch {
+                return nil
+            }
         }
+    }
+
+    /// Create a new node not in any document tree
+    ///
+    /// - Parameters:
+    ///     - type: the type of the node to be created
+    ///     - extension: the extension for this node (or nil if this type is a base type).
+    convenience init(type: CMNodeType, `extension`: CMExtensionOption? = nil) {
+        let node: UnsafeMutablePointer<cmark_node>
+        if `extension` != nil {
+           node = cmark_node_new_with_ext(cmark_node_type(type.rawValue), `extension`!.syntaxExtension)
+        } else {
+            node = cmark_node_new(cmark_node_type(type.rawValue))
+        }
+        self.init(cmarkNode: node, memoryOwner: nil)
     }
 }
