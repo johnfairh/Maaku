@@ -104,3 +104,23 @@ public class Iterator {
         }
     }
 }
+
+/// Simpler interface to node iterator
+public struct CMIterator {
+    private let iterator: Iterator
+
+    /// Start iterating a new document
+    public init(doc: CMDocument) {
+        iterator = Iterator(node: doc.node)!
+    }
+
+    /// Simple iteration, calls for 'entry' event into every node.
+    public func forEach(iter: (CMNode, Iterator) throws -> Void) throws {
+        try iterator.enumerate { node, event in
+            if event == .enter {
+                try iter(node, iterator)
+            }
+            return false // keep going
+        }
+    }
+}

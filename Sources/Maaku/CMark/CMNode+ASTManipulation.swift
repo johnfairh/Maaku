@@ -106,6 +106,32 @@ public extension CMNode {
         }
     }
 
+    func setUserData<T: AnyObject>(unretained: T) {
+        let unmanaged = Unmanaged.passUnretained(unretained)
+        cmark_node_set_user_data(cmarkNode, unmanaged.toOpaque())
+    }
+
+    func setUserData<T: AnyObject>(retained: T) {
+        let unmanaged = Unmanaged.passRetained(retained)
+        cmark_node_set_user_data(cmarkNode, unmanaged.toOpaque())
+    }
+
+    func getUserDataUnretained<T: AnyObject>(kind: T.Type) -> T? {
+        guard let opaque = cmark_node_get_user_data(cmarkNode) else {
+            return nil
+        }
+        let unmanaged = Unmanaged<T>.fromOpaque(opaque)
+        return unmanaged.takeUnretainedValue()
+    }
+
+    func getUserDataRetained<T: AnyObject>(kind: T.Type) -> T? {
+        guard let opaque = cmark_node_get_user_data(cmarkNode) else {
+            return nil
+        }
+        let unmanaged = Unmanaged<T>.fromOpaque(opaque)
+        return unmanaged.takeRetainedValue()
+    }
+
     /// Inserts this node into the AST before the given node
     ///
     /// - Parameters:

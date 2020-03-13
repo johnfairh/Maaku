@@ -249,6 +249,15 @@ public extension CMNode {
         return Iterator(node: self)
     }
 
+    /// Vend the children of the node.  Robust against the child being deleted.
+    func forEach(_ call: (CMNode) throws -> ()) rethrows {
+        var child = firstChild
+        while let node = child {
+            child = node.next
+            try call(node)
+        }
+    }
+
     /// Returns the extension associated with the node, or nil
     /// if no extension. Should only ever return a single extension option value,
     /// as a node can never be associated with multiple extensions
