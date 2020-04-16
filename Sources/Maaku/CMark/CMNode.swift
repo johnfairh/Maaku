@@ -250,7 +250,7 @@ public extension CMNode {
     }
 
     /// Vend the children of the node.  Robust against the child being deleted.
-    func forEach(_ call: (CMNode) throws -> ()) rethrows {
+    func forEach(_ call: (CMNode) throws -> Void) rethrows {
         var child = firstChild
         while let node = child {
             child = node.next

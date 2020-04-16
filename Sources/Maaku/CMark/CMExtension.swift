@@ -26,7 +26,7 @@ public struct CMExtensionOption: OptionSet {
     }
 
     /// No extensions
-    public static let none = CMExtensionOption(rawValue: 0)
+    public static let none = CMExtensionOption([])
 
     /// All extensions
     public static let all: CMExtensionOption = [.tables, .autolinks, .strikethrough, .tagfilters, .tasklist]
