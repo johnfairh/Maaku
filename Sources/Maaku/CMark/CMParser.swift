@@ -35,7 +35,7 @@ enum CMExtensionName: String {
 
 /// The interface a markdown parser uses to inform its delegate
 /// about the content of the parsed document.
-public protocol CMParserDelegate: class {
+public protocol CMParserDelegate: AnyObject {
 
     /// Sent by the parser object to the delegate when it begins parsing a document.
     ///
