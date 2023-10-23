@@ -9,7 +9,8 @@
 // swiftlint:disable file_length
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
 
 /// cmark gfm extension names
 enum CMExtensionName: String {

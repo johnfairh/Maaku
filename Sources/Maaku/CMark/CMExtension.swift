@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
 
 /// Represents a cmark extension option.
 public struct CMExtensionOption: OptionSet {

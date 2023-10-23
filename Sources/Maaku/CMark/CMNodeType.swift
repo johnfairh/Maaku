@@ -7,19 +7,30 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
+
 
 /// Represents a cmark extension node type.
 public enum CMNodeExtensionType: Equatable {
+/*
+
+   JF 23/10/22: These node types are allocated at runtime -- if we really need them
+   then we can add a shim header to extern the values like the non-public 'extension'
+   fields do.
+
     case strikethrough
     case table
     case tableRow
     case tableCell
+
+    */
     case other(UInt32)
 
     /// The raw value.
     var rawValue: UInt32 {
         switch self {
+            /*
         case .strikethrough:
             return CMARK_NODE_STRIKETHROUGH.rawValue
         case .table:
@@ -28,6 +39,7 @@ public enum CMNodeExtensionType: Equatable {
             return CMARK_NODE_TABLE_ROW.rawValue
         case .tableCell:
             return CMARK_NODE_TABLE_CELL.rawValue
+            */
         case let .other(rawValue):
             return rawValue
         }
@@ -35,6 +47,7 @@ public enum CMNodeExtensionType: Equatable {
 
     init(rawValue: UInt32) {
         switch rawValue {
+            /*
         case CMARK_NODE_STRIKETHROUGH.rawValue:
             self = .strikethrough
         case CMARK_NODE_TABLE.rawValue:
@@ -45,6 +58,7 @@ public enum CMNodeExtensionType: Equatable {
             self = .tableCell
         case CMARK_NODE_TABLE_ROW.rawValue:
             self = .tableRow
+            */
         default:
             self = .other(rawValue)
         }
@@ -55,6 +69,7 @@ public enum CMNodeExtensionType: Equatable {
         return lhs.rawValue == rhs.rawValue
     }
 }
+
 
 /// Represents a cmark node type.
 public enum CMNodeType: Equatable {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
 
 /// Node rendering methods
 public extension CMNode {

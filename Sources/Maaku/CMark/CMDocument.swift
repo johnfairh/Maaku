@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
 
 /// Represents a cmark document error.
 public enum CMDocumentError: Error {

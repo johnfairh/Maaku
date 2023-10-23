@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
 
 /// Extension for manipulating ndoe values and the Abstract Syntax Tree
 public extension CMNode {

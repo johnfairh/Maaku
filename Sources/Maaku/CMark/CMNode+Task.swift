@@ -7,7 +7,8 @@
 //
 
 import Foundation
-import libcmark_gfm
+import cmark_gfm
+import cmark_gfm_extensions
 
 /// Extension properties for tasklist items
 public extension CMNode {

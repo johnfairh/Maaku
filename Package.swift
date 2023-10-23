@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -10,12 +10,16 @@ let package = Package(
             targets: ["Maaku"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/KristopherGBaker/libcmark_gfm.git", from: "0.29.3"),
+      .package(url: "https://github.com/apple/swift-cmark.git", branch: "gfm")
     ],
     targets: [
         .target(
             name: "Maaku",
-            dependencies: ["libcmark_gfm"])
+            dependencies: [
+              .product(name: "cmark-gfm", package: "swift-cmark"),
+              .product(name: "cmark-gfm-extensions", package: "swift-cmark")
+            ]
+        )
     ],
     swiftLanguageVersions: [.v5]
 )
