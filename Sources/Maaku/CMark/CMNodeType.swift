@@ -12,7 +12,7 @@ import cmark_gfm_extensions
 
 
 /// Represents a cmark extension node type.
-public enum CMNodeExtensionType: Equatable {
+public enum CMNodeExtensionType: Equatable, Sendable {
 /*
 
    JF 23/10/22: These node types are allocated at runtime -- if we really need them
@@ -72,7 +72,7 @@ public enum CMNodeExtensionType: Equatable {
 
 
 /// Represents a cmark node type.
-public enum CMNodeType: Equatable {
+public enum CMNodeType: Equatable, Sendable {
     case none
     case document
     case blockQuote

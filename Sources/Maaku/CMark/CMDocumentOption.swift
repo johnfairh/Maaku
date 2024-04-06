@@ -10,7 +10,7 @@ import Foundation
 import cmark_gfm
 
 /// Represents a cmark document option.
-public struct CMDocumentOption: OptionSet {
+public struct CMDocumentOption: OptionSet, Sendable {
 
     /// The raw value.
     public let rawValue: Int32

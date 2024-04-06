@@ -10,7 +10,7 @@ import Foundation
 import cmark_gfm
 
 /// Represents a cmark list type.
-public enum CMListType: UInt32 {
+public enum CMListType: UInt32, Sendable {
 
     /// The none list type.
     case none

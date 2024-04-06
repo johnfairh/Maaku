@@ -1,6 +1,10 @@
 Quick fork for Linux support using SPM in 5.1.  See commit comments.
 Versions at upstream + 10.0.0.
 
+Oct 23 - updated to use `swift-cmark` because of dependency hell.
+
+Apr 24 - Sendable updates
+
 ---
 # Maaku
 

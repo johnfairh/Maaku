@@ -10,7 +10,7 @@ import Foundation
 import cmark_gfm
 
 /// Represents a cmark extension option.
-public struct CMExtensionOption: OptionSet {
+public struct CMExtensionOption: OptionSet, Sendable {
 
     /// The raw value.
     public let rawValue: Int32

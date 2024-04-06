@@ -13,7 +13,7 @@ import cmark_gfm
 import cmark_gfm_extensions
 
 /// cmark gfm extension names
-enum CMExtensionName: String {
+enum CMExtensionName: String, Sendable {
 
     /// Strikethrough
     case strikethrough

@@ -10,7 +10,7 @@ import Foundation
 import cmark_gfm
 
 /// Represents a cmark delimiter type.
-public enum CMDelimiterType: UInt32 {
+public enum CMDelimiterType: UInt32, Sendable {
 
     /// The none delimiter type.
     case none
