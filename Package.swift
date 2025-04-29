@@ -10,7 +10,7 @@ let package = Package(
             targets: ["Maaku"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/apple/swift-cmark.git", branch: "gfm")
+      .package(url: "https://github.com/swiftlang/swift-cmark.git", branch: "gfm")
     ],
     targets: [
         .target(
